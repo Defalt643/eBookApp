@@ -1,19 +1,44 @@
 import 'package:book_app/consttants.dart';
+import 'package:book_app/data/userData.dart';
 import 'package:book_app/screens/cart.dart';
 import 'package:book_app/screens/details_screen.dart';
-import 'package:book_app/widgets/book_rating.dart';
-import 'package:book_app/widgets/reading_card_list.dart';
-import 'package:book_app/widgets/two_side_rounded_button.dart';
+import 'package:book_app/screens/profile_screen.dart';
+import 'package:book_app/widgets/widgets.dart';
 import 'package:book_app/data/data.dart';
 
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  final ValueChanged<HomeScreen> onTap;
+  HomeScreen({Key key, this.onTap}) : super(key: key);
+
+  DetailsScreen _selectedDetail;
+  int _handleDetailTapped(DetailsScreen detail, var vol) {
+    _selectedDetail = detail;
+    return vol;
+  }
+
+  final user = UserPreferences.myUser;
   get book => Data().details;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ProfilePage();
+              },
+            ),
+          );
+        },
+        child: Image.asset('assets/images/62160244-modified.png'),
+        mini: false,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,45 +66,58 @@ class HomeScreen extends StatelessWidget {
                           TextSpan(
                               text: "today?",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black
-                              ))
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
                         ],
                       ),
                     ),
                   ),
+                  // ProfileWidget(
+                  //   imagePath: user.imagePath,
+                  //   onClicked: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) {
+                  //           return ProfilePage();
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+
                   SizedBox(height: 30),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: <Widget>[
-                        for(var i=0;i<book.length;i++)
-                        ReadingListCard(
-                          image: book[i]["image"],
-                          title: book[i]["name"],
-                          auth: book[i]["auth"],
-                          rating: book[i]["rating"],
-                          pressDetails: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return DetailsScreen(i);
-                                },
-                              ),
-                            );
-                          },
-                          pressRead: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return CartView(i);
-                                },
-                              ),
-                            );
-                          },
-                        ),
+                        for (var i = 0; i < book.length; i++)
+                          ReadingListCard(
+                            image: book[i]["image"],
+                            title: book[i]["name"],
+                            auth: book[i]["auth"],
+                            rating: book[i]["rating"],
+                            pressDetails: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return DetailsScreen(i);
+                                  },
+                                ),
+                              );
+                            },
+                            pressRead: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return CartView(i);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
                         SizedBox(width: 30),
                       ],
                     ),
@@ -93,17 +131,19 @@ class HomeScreen extends StatelessWidget {
                           text: TextSpan(
                             style: Theme.of(context).textTheme.headline4,
                             children: [
-                              TextSpan(text: "Best of the ",
-                              style: TextStyle(
-                                color: Colors.black
-                                //   foreground: Paint()
-                                //     ..style = PaintingStyle.stroke
-                                //     ..strokeWidth = 2
-                                //     ..color = Colors.black)),
-                              )),
+                              TextSpan(
+                                  text: "Best of the ",
+                                  style: TextStyle(color: Colors.black
+                                      //   foreground: Paint()
+                                      //     ..style = PaintingStyle.stroke
+                                      //     ..strokeWidth = 2
+                                      //     ..color = Colors.black)),
+                                      )),
                               TextSpan(
                                 text: "day",
-                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
                               ),
                             ],
                           ),
@@ -264,7 +304,7 @@ class HomeScreen extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: 10.0), 
+                          padding: EdgeInsets.only(right: 10.0),
                           child: BookRating(score: 4.9),
                         ),
                         Expanded(
@@ -308,7 +348,7 @@ class HomeScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) {
                         return DetailsScreen(0);
-                        },
+                      },
                     ),
                   );
                 },

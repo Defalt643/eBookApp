@@ -1,6 +1,6 @@
 import 'package:book_app/consttants.dart';
-import 'package:book_app/widgets/book_rating.dart';
-import 'package:book_app/widgets/rounded_button.dart';
+import 'package:book_app/screens/read.dart';
+import 'package:book_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:book_app/data/data.dart';
 
@@ -8,16 +8,14 @@ import 'cart.dart';
 import 'home_screen.dart';
 
 class DetailsScreen extends StatelessWidget {
-  get detail => Data().details;
   DetailsScreen(this.vol);
+  get detail => Data().details;
   final vol;
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     // for (var i = 0; i < detail[vol]["chapterDetail"].length; i++) {
-      final item = detail[vol];
+    final item = detail[vol];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -29,10 +27,11 @@ class DetailsScreen extends StatelessWidget {
               children: <Widget>[
                 Container(
                     alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(top: size.height * .12,
+                    padding: EdgeInsets.only(
+                        top: size.height * .12,
                         left: size.width * .1,
                         right: size.width * .02),
-                    height: size.height *.5,
+                    height: size.height * .5,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         // image: AssetImage("assets/images/bg.png"),
@@ -44,20 +43,33 @@ class DetailsScreen extends StatelessWidget {
                         bottomRight: Radius.circular(50),
                       ),
                     ),
-                    child: BookInfo(size: size,vol:vol)
-                ),
+                    child: BookInfo(size: size, vol: vol)),
                 Padding(
                   padding: EdgeInsets.only(top: size.height * .48 - 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      for(var i=0;i<detail[vol]["chapterDetail"].length;i++)
+                      for (var i = 0;
+                          i < detail[vol]["chapterDetail"].length;
+                          i++)
                         ChapterCard(
-                        name: item["chapterDetail"][i]["chapterName"],
-                        chapterNumber: item["chapterDetail"][i]["chapterNumber"],
-                        tag: item["chapterDetail"][i]["chapterTag"],
-                        press: () {},
-                      ),
+                          name: item["chapterDetail"][i]["chapterName"],
+                          chapterNumber: item["chapterDetail"][i]
+                              ["chapterNumber"],
+                          tag: item["chapterDetail"][i]["chapterTag"],
+                          press: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Reader(
+                                      item["chapterDetail"][i]["chapterName"],
+                                      vol);
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       SizedBox(height: 10),
                     ],
                   ),
@@ -71,10 +83,7 @@ class DetailsScreen extends StatelessWidget {
                 children: <Widget>[
                   RichText(
                     text: TextSpan(
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline5,
+                      style: Theme.of(context).textTheme.headline5,
                       children: [
                         TextSpan(
                           text: "To read full chapter need to\n",
@@ -99,7 +108,7 @@ class DetailsScreen extends StatelessWidget {
                         right: 0,
                         child: Container(
                           padding:
-                          EdgeInsets.only(left: 24, top: 24, right: 150),
+                              EdgeInsets.only(left: 24, top: 24, right: 150),
                           height: 160,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -115,7 +124,7 @@ class DetailsScreen extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text:
-                                      "That time I Got\nReincarnated as a Slime \n",
+                                          "That time I Got\nReincarnated as a Slime \n",
                                       style: TextStyle(
                                         fontSize: 15,
                                       ),
@@ -137,7 +146,7 @@ class DetailsScreen extends StatelessWidget {
                                     child: RoundedButton(
                                       text: "Buy",
                                       verticalPadding: 10,
-                                      press: (){
+                                      press: () {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -177,7 +186,6 @@ class DetailsScreen extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class ChapterCard extends StatelessWidget {
@@ -191,7 +199,6 @@ class ChapterCard extends StatelessWidget {
     this.tag,
     this.chapterNumber,
     this.press,
-
   }) : super(key: key);
 
   @override
@@ -247,13 +254,7 @@ class ChapterCard extends StatelessWidget {
 }
 
 class BookInfo extends StatelessWidget {
-
-  
-  const BookInfo({
-    Key key,
-    this.size,
-    this.vol
-  }) : super(key: key);
+  const BookInfo({Key key, this.size, this.vol}) : super(key: key);
   final vol;
   final Size size;
   get detail => Data().details;
@@ -267,85 +268,106 @@ class BookInfo extends StatelessWidget {
         children: <Widget>[
           Expanded(
               flex: 1,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "That time I",
-                    style: Theme.of(context).textTheme.headline4.copyWith(
-                      fontSize: 28
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "That time I",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(fontSize: 28),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: this.size.height * .005),
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top: 0),
-                  child: Text(
-                    "Tensura",
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    margin: EdgeInsets.only(top: this.size.height * .005),
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(top: 0),
+                    child: Text(
+                      "Tensura",
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: this.size.width * .3,
-                          padding: EdgeInsets.only(top: this.size.height * .02),
-                          child: Text(
-                            "Because Rimuru referred to himself as the Demon Lord. 'Walpurgis' was therefore held by Clayman's proposal.",
-                            maxLines: 5,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: kLightBlackColor,
+                  Row(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: this.size.width * .3,
+                            padding:
+                                EdgeInsets.only(top: this.size.height * .02),
+                            child: Text(
+                              "Because Rimuru referred to himself as the Demon Lord. 'Walpurgis' was therefore held by Clayman's proposal.",
+                              maxLines: 5,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: kLightBlackColor,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: this.size.height * .015),
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
+                          Container(
+                            margin:
+                                EdgeInsets.only(top: this.size.height * .015),
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Reader(
+                                          item["chapterDetail"][0]
+                                              ["chapterName"],
+                                          vol);
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Read",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.favorite_border,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {},
                           ),
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: Text("Read", style: TextStyle(fontWeight: FontWeight.bold),),
-                          ), 
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.favorite_border, size: 20, color: Colors.grey,),
-                            onPressed: () {},
-                        ), 
-                        BookRating(score: 4.9),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            )
-          ),
+                          BookRating(score: 4.9),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )),
           Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.transparent,
-              child: Image.asset(
-                item["image"],
-                height: double.infinity,
-                alignment: Alignment.topRight,
-                fit: BoxFit.fitWidth,
-              ),
-          )),
+              flex: 1,
+              child: Container(
+                color: Colors.transparent,
+                child: Image.asset(
+                  item["image"],
+                  height: double.infinity,
+                  alignment: Alignment.topRight,
+                  fit: BoxFit.fitWidth,
+                ),
+              )),
         ],
       ),
     );
