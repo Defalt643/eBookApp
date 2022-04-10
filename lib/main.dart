@@ -1,5 +1,5 @@
 import 'package:book_app/data/userData.dart';
-import 'package:book_app/widgets/profileWelcom.dart';
+import 'package:book_app/widgets/profileWelcome.dart';
 import 'package:book_app/widgets/widgets.dart';
 import 'package:book_app/screens/home_screen.dart';
 import 'package:book_app/widgets/rounded_button.dart';

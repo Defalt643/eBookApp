@@ -24,7 +24,6 @@ class _Reader extends State<Reader> {
 
   @override
   Widget build(BuildContext context) {
-    ;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(

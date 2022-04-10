@@ -31,14 +31,6 @@ class _CartViewState extends State<CartView> {
             ),
             onPressed: () {
               Navigator.pop(context);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) {
-              //       return HomeScreen();
-              //     },
-              //   ),
-              // );
             },
           ),
         ),
