@@ -9,6 +9,6 @@ export 'password.dart';
 export 'profile.dart';
 export 'reading_card_list.dart';
 export 'rounded_button.dart';
-export 'rounded-button.dart';
 export 'StrokeText.dart';
+export 'profileWelcome.dart';
 export 'two_side_rounded_button.dart';
